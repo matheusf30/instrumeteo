@@ -1,0 +1,65 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Sensores (Pluviometro)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshi Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 23/04/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, pluvio
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (Test,1,1000)
+	DataInterval (0,1,Sec,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Totalize (1,pluvio,FP2,False)
+EndTable
+
+DataTable (dez,1,1000)
+  DataInterval (0,10,Sec,10)
+  Totalize (1,pluvio,FP2,False)
+EndTable
+
+DataTable (quinze,1,1000)
+  DataInterval (0,15,Sec,10)
+  Totalize (1,pluvio,FP2,False)
+EndTable
+
+DataTable (vinte,1,1000)
+  DataInterval (0,20,Sec,10)
+  Totalize (1,pluvio,FP2,False)
+EndTable
+
+DataTable (trinta,1,1000)
+  DataInterval (0,30,Sec,10)
+  Totalize (1,pluvio,FP2,False)
+EndTable
+
+DataTable (minuto,1,1000)
+  DataInterval (0,1,Min,10)
+  Totalize (1,pluvio,FP2,False)
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa Principal 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+  Scan (1,Sec,3,0)
+    PanelTemp (PTemp,250)
+    Battery (batt_volt)
+    PulseCount (pluvio,1,1,2,0,0.2,0)
+    CallTable Test
+    CallTable dez
+    CallTable quinze
+    CallTable vinte
+    CallTable trinta
+    CallTable minuto
+  NextScan
+EndProg
