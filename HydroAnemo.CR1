@@ -1,0 +1,41 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Sensores (Anemometro)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshi Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 30/04/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, hydro, anemo, direcao 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (Test,1,1000)
+	DataInterval (0,1,Sec,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Totalize (1,hydro,FP2,False) ' Acumulado de Precipitacao
+	Average (1,anemo,FP2,False) ' Velocidade Media do Vento
+	WindVector (1,anemo,direcao,FP2,False,0,0,2) ' Direcao Media do Vento
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa Principal
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (Batt_volt)
+    PulseCount (hydro,1,1,0,1,0.2,0)
+    PulseCount (anemo,1,2,0,1,0.04586,0.256)
+    ExciteV (Vx1,1000,200)
+    VoltSe (direcao,1,mV2500,15,1,0,250,0.355,0)
+		CallTable Test
+	NextScan
+EndProg
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
