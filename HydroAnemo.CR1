@@ -33,7 +33,7 @@ BeginProg
 		Battery (Batt_volt)
     PulseCount (hydro,1,1,0,1,0.2,0)
     PulseCount (anemo,1,2,0,1,0.04586,0.256)
-    ExciteV (Vx1,1000,200)
+    ExciteV (Vx1,1000,0)
     VoltSe (direcao,1,mV2500,15,1,0,250,0.355,0)
 		CallTable Test
 	NextScan
