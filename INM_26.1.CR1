@@ -47,3 +47,4 @@ BeginProg
 		CallTable(saida_1min)
 	NextScan
 EndProg
+'IFSC
