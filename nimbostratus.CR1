@@ -22,7 +22,7 @@ DataTable (TestIFSC,1,1000)
 	Sample (1,PTemp,FP2)
   Totalize (1,chuva,FP2,False)
   Average (1,vel,FP2,False)
-  WindVector (1,vel,dir,FP2,False,0,0,0)
+  WindVector (1,vel,dir,FP2,False,0,0,2)
 EndTable
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' Programa
@@ -33,8 +33,8 @@ BeginProg
 		Battery (batt_volt)
 		PulseCount (chuva,1,1,2,0,0.2,0)
 	  PulseCount (vel,1,2,0,0,0.04856,0.355)
-	  ExciteV (Vx1,2000,0)
-	  VoltSe (dir,1,mv2500C,14,1,0,250,1.0,0)
+	  ExciteV (Vx1,1000,0)
+	  VoltSe (dir,1,mv2500C,14,1,0,250,0.355,0)
 		CallTable TestIFSC
 	NextScan
 EndProg
