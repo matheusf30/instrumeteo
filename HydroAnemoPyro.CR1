@@ -1,0 +1,43 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Sensores (Pluviometro, Anemometro e Piranometro)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshi Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 07/05/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, chuva, vel, dir, rad
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (TestIFSC,1,1000)
+	DataInterval (0,15,Sec,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+  Totalize (1,chuva,FP2,False)
+  Average (1,vel,FP2,False)
+  WindVector (1,vel,dir,FP2,False,0,0,2)
+  Average (1,rad,FP2,False)
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (batt_volt)
+		PulseCount (chuva,1,1,2,0,0.2,0)
+	  PulseCount (vel,1,2,0,0,0.04856,0.355)
+	  ExciteV (Vx1,1000,0)
+	  VoltSe (dir,1,mv2500C,14,1,0,250,0.355,0)
+	  VoltDiff (rad,1,mV25,2,True ,0,250,102.56,0)
+		CallTable TestIFSC
+	NextScan
+EndProg
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
