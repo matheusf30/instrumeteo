@@ -1,0 +1,49 @@
+'CR1000
+'Created by Short Cut (2.8)
+
+'Declare Variables and Units
+Public BattV,  Pressao, Chuva, Radiacao, Result(2)
+Alias Result(1)=Temperatura
+Alias Result(2)=Umidade
+Public flag(8), termopar, Tpanel, vel
+
+'Define Data Tables
+DataTable(saida_1min,false,-1)
+	DataInterval(0,1,Min,10)
+	Minimum(1,BattV,FP2,False,False)
+	Average (1,Temperatura,FP2,False)
+	Average (1,Umidade,FP2,False)
+	Average (1,Pressao,FP2,False)
+EndTable
+
+'Main Program
+BeginProg
+	Scan(1,Sec,1,0)
+		'Default Datalogger Battery Voltage measurement BattV
+		Battery(BattV)
+		PanelTemp (Tpanel,250)
+		
+		SDI12Recorder(Pressao,7,0,"M!",1,0)
+		SDI12Recorder(Result(),1,0,"M!",1,0)
+		'Pulse measurement Chuva
+		PulseCount(Chuva,1,1,2,0,.2,0)
+		VoltDiff(Radiacao,1,mv250,1,True,0,_60Hz,19.6,0)
+		TCDiff (termopar,1,mV2_5C,4,TypeT,Tpanel,True ,0,250,1.0,0)
+				PulseCount (vel,1,2,0,1,0.04586,0.266)
+		
+		If (Chuva>0.1) Then
+		PortSet (4,1 )
+		Else
+		PortSet (4,0)  		   
+		EndIf
+		
+    If termopar>25 Then
+    PortSet (3,1)  
+    Else
+    PortSet (3,0)
+    EndIf
+
+		'Call Data Tables and Store Data
+		CallTable(saida_1min)
+	NextScan
+EndProg
