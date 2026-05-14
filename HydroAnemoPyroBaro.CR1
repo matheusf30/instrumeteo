@@ -38,6 +38,7 @@ BeginProg
 	  ExciteV (Vx1,1000,0)
 	  VoltSe (dir,1,mv2500C,15,1,0,250,0.355,0)
 	  VoltDiff (rad,1,mV25,2,True ,0,250,102.56,0)
+	  SW12 (1)
 	  VoltSe (bar,1,mv5000,11,1,0,250,0.06,800)
 		CallTable TestIFSC
 	NextScan
