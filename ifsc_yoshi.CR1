@@ -1,0 +1,49 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Sensores (Pluviometro, Anemometro, Piranometro, Barometro, e Termohigrometro)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshi Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 11/06/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, chuva, vel, dir, rad, press, temperat, umi_rel ' variavel
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes   'Define Data Tables
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (IFSC,1,-1) ' Nome da tabela: IFSC
+	DataInterval (0,1,Min,10) ' processamento 1min
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Totalize (1,chuva,FP2,False)'total de chuva
+	Average (1,vel,FP2,False)'media da vel
+	WindVector (1,vel,dir,FP2,False,0,0,2)'media vetorial vento
+	Average (1,rad,FP2,rad)'media de radiacao
+	Sample (1,press,IEEE4) 'detalhe*4bytes de armazenamento
+	Average (1,temperat,FP2,False)
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+	Scan (1,Sec,0,0) ' leitura 1s
+		PanelTemp (PTemp,250)
+		Battery (batt_volt)
+		PulseCount (chuva,1,1,2,0,0.2,0)'Leitura chuva
+		PulseCount (vel,1,2,0,1,0.04856,0.256)'Leitura vel
+		ExciteV (Vx1,1000,0)'aplica tensao de 1000mV 
+		VoltSe (dir,1,mV2500,15,1,0,250,0.355,0)'Leitura dir
+		VoltDiff (rad,1,mV25,2,True ,0,250,102.56,0)'Leitura rad
+		SW12 (1) 'Ligamento da Porta 12 V
+    VoltSe (press,1,mv5000,11,1,0,250,0.06,800) 'Leitura de pressao
+    VoltSe (temperat,1,mV2500,12,1,0,250,0.1,-50) 'Leitura de Temperatura
+    VoltSe (umi_rel,1,mV2500,13,1,0,250,0.1,0)
+		CallTable IFSC ' salvar na tabela IFSC
+	NextScan
+EndProg
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
