@@ -1,0 +1,38 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Sensores Termicos (Temperaturas Terra/Agua)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshi Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 25/06/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, t_geo, t_hydro
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (Experimento,1,-1)
+	DataInterval (0,1,Min,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+		Average (1,t_geo,FP2,False)
+	  Average (1,PTemp,FP2,False)
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (batt_volt
+				TCDiff (t_geo,1,mV2_5,1,TypeK,PTemp,True ,0,250,1.0,0)
+				TCDiff (t_hydro,1,mV2_5,2,TypeK,PTemp,True ,0,250,1.0,0)
+		CallTable Experimento
+	NextScan
+EndProg
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
