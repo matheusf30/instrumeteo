@@ -1,0 +1,25 @@
+Public PTemp, batt_volt, TTerra, TAgua
+
+'Define Data Tables
+DataTable (expterraagua,1,-1)
+	DataInterval (0,1,Min,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Average (1,TAgua,FP2,False)
+	Average (1,TTerra,FP2,False)
+	StdDev (1,TAgua,FP2,False)
+	StdDev (1,TTerra,FP2,False)
+EndTable
+
+'Main Program
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (batt_volt)
+		TCDiff (TAgua,1,mV2_5C,3,TypeK,PTemp,True ,0,250,1.0,0)
+		TCDiff (TTerra,1,mV2_5C,2,TypeK,PTemp,True ,0,250,1.0,0)
+		
+		CallTable expterraagua
+	NextScan
+EndProg
+
