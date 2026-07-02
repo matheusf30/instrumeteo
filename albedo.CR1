@@ -1,0 +1,21 @@
+
+Public PTemp, batt_volt, radiacao_incidente, radiacao_refletida
+
+DataTable (exp02,1,-1)
+	DataInterval (0,1,Min,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Average (1,radiacao_incidente,FP2,False)
+	Average (1,radiacao_refletida,FP2,False)
+EndTable
+
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (batt_volt)
+		VoltDiff (radiacao_incidente,1,mV25,1,True ,0,250,102.56,0)
+		VoltDiff (radiacao_refletida,1,mV250,2,True ,0,250,19.64,0)
+		CallTable exp02
+	NextScan
+EndProg
+
