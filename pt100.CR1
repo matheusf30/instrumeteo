@@ -1,0 +1,40 @@
+Public PTemp, batt_volt
+Const rf=9840
+Const vx=2000
+Public vs, rs, pt100, termopar
+
+
+'Define Data Tables
+DataTable (exp03pt100hill,1,1000)
+	DataInterval (0,1,Sec,10)
+	Minimum (1,batt_volt,FP2,0,False)
+
+		Sample (1,pt100,FP2)
+	  
+    Sample (1,termopar,FP2)
+	  Sample (1,PTemp,FP2)
+	  Sample (1,rs,FP2)
+		
+	
+EndTable
+
+'Main Program
+BeginProg
+	Scan (1,Sec,0,0)
+		PanelTemp (PTemp,_60Hz)
+		Battery (batt_volt)
+				
+    ExciteV (Vx1,2000,0) 'tensao de entrada para o PT100
+		VoltSe (vs,1,mV25,1,1,0,250,1.0,0)  'leitura de tensao no rs (pt100)
+		rs=rf*(vs/(vx+vs)) 'calcula a resistencia rs
+		pt100=rs/100-1*1/0.00385 'calcula a temp do 
+		
+        TCDiff (termopar,1,mV2_5C,2,TypeK,PTemp,True ,0,250,1.0,0)
+
+		
+			
+		
+		CallTable exp03pt100hill 
+	NextScan
+EndProg
+
