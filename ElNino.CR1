@@ -1,0 +1,36 @@
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Instituto Federal de Educacao, Ciencia e Tecnologia
+''' Curso Tecnico em Meteorologia
+''' Laboratorio de Instrumentacao Meteorologica
+''' Roteiro para Teste de Experimento (El Nino)
+''' Disciplina: Instrumentacao Meteorologica
+''' Docente: Yoshiaki Sakagami
+''' Adaptado por: Matheus Ferreira de Souza
+''' Data: 09/07/2026
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Variaveis Publicas
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Public PTemp, batt_volt, temp(16)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Funcoes
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+DataTable (elnino,1,1000)
+	DataInterval (0,100,mSec,10)
+	Minimum (1,batt_volt,FP2,0,False)
+	Sample (1,PTemp,FP2)
+	Sample (16,temp(1),FP2)
+EndTable
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+''' Programa Principal
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+BeginProg
+	Scan (100,mSec,0,0)
+		PanelTemp (PTemp,250)
+		Battery (batt_volt)
+		TCSe (temp(1),16,mV2_5C,1,TypeK,PTemp,1,0,250,1.0,0)
+		CallTable elnino
+	NextScan
+EndProg
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
